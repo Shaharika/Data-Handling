@@ -1,0 +1,51 @@
+library(ggplot2)
+orders_data <- data.frame(
+  Order_ID = c(2001, 2002, 2003, 2004),
+  Customer_Name = c("John", "Alice", "Bob", "Sarah"),
+  Product = c("Widget X", "Widget Y", "Widget X", "Widget Z"),
+  Quantity = c(10, 5, 8, 12),
+  Price = c(5, 8, 5, 7)
+)
+orders_data$Price <- as.numeric(gsub("\\$", "", orders_data$Price))
+histogram_quantity <- ggplot(orders_data, aes(x = Quantity)) +
+  geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Product Quantity",
+       x = "Quantity",
+       y = "Frequency")
+
+print(histogram_quantity)
+
+
+
+
+total_quantity <- sum(orders_data$Quantity)
+total_price <- sum(orders_data$Price)
+
+quant_price <- c(total_quantity, total_price)
+names(quant_price) <- c("Total Quantity", "Total Price")
+
+library(plotrix)
+
+pie(quant_price, labels = paste(names(quant_price), ": ", quant_price), 
+    main = "Distribution of Overall Quantity and Price", col = rainbow(length(quant_price)))
+
+
+
+
+
+
+
+library(tm)
+library(wordcloud)
+feedback_data <- data.frame(
+  Feedback = c("Great service!", "Decent but could improve.", "Excellent experience!", "Not satisfied at all.")
+)
+corpus <- Corpus(VectorSource(feedback_data$Feedback))
+corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeWords, stopwords("english"))
+tdm <- TermDocumentMatrix(corpus)
+m <- as.matrix(tdm)
+word_freq <- sort(rowSums(m), decreasing = TRUE)
+wordcloud(words = names(word_freq), freq = word_freq, min.freq = 1,
+          max.words = 100, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
