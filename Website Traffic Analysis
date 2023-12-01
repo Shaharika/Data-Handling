@@ -1,0 +1,35 @@
+library(tidyverse)
+data <- data.frame(
+  Date = as.Date(c("2023-01-01", "2023-01-02", "2023-01-03", "2023-01-04", "2023-01-05")),
+  Page_Views = c(1500, 1600, 1400, 1650, 1800),
+  Click_Through_Rate = c(2.3, 2.7, 2.0, 2.4, 2.6)
+)
+ggplot(data, aes(x = Date, y = Page_Views)) +
+  geom_line(color = "blue") +
+  labs(title = "Page Views Over Time", x = "Date", y = "Page Views")
+
+
+
+N <- 3  # Change N as needed
+top_days <- data %>% top_n(N, Click_Through_Rate)
+ggplot(top_days, aes(x = Date, y = Click_Through_Rate, fill = Date)) +
+  geom_bar(stat = "identity") +
+  labs(title = paste("Top", N, "Days with Highest Click-through Rates"), x = "Date", y = "Click-through Rate")
+
+
+
+
+interaction_data <- data.frame(
+  Date = as.Date(c("2023-01-01", "2023-01-02", "2023-01-03", "2023-01-04", "2023-01-05")),
+  Likes = c(100, 120, 90, 110, 130),
+  Shares = c(50, 60, 45, 55, 65),
+  Comments = c(30, 40, 35, 25, 50)
+)
+
+interaction_data_long <- interaction_data %>% 
+  pivot_longer(cols = c(Likes, Shares, Comments), names_to = "Interaction", values_to = "Count")
+
+ggplot(interaction_data_long, aes(x = Date, y = Count, fill = Interaction)) +
+  geom_area() +
+  labs(title = "Distribution of User Interactions", x = "Date", y = "Count")
+
