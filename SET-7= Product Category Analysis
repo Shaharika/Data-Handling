@@ -1,0 +1,42 @@
+#Pie chart
+library(ggplot2)
+data <- data.frame(
+  Category = c("Electronics", "Clothing", "Appliances"),
+  Sales = c(50000, 35000, 40000)
+)
+ggplot(data, aes(x = "", y = Sales, fill = Category)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y") +
+  labs(title = "Distribution of Sales Across Product Categories",
+       fill = "Category")
+
+
+
+
+
+#Bar chart
+library(ggplot2)
+data <- data.frame(
+  Category = c("Electronics", "Clothing", "Appliances"),
+  Sales = c(50000, 35000, 40000)
+)
+data <- data[order(data$Sales, decreasing = TRUE), ]
+ggplot(data, aes(y = Category, x = Sales, fill = Category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Sales Conversion Process",
+       x = "Sales",
+       y = "Category",
+       fill = "Category")
+
+
+
+#Table
+library(kableExtra)
+Product_Analysis <- data.frame(
+  Category = c("Electronics", "Clothing", "Appliances"),
+  Sales = c(50000, 35000, 40000)
+)
+survey_table <- kable(Product_Analysis, format = "html", caption = "sales data for each product category") %>%
+  kable_styling("striped", full_width = FALSE)
+survey_table 
+
