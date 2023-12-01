@@ -1,0 +1,34 @@
+library(tidyverse)
+
+# Create the data frame
+sales_data <- data.frame(
+  Employee = c("John", "Alice", "Bob", "Sarah"),
+  Sales = c(5000, 6200, 4500, 7400)
+)
+
+# a. Line chart to visualize monthly sales
+ggplot(sales_data, aes(x = Employee, y = Sales, group = 1)) +
+  geom_line(color = "blue") +
+  labs(title = "Monthly Sales", x = "Employee", y = "Sales (in dollars)")
+
+
+
+ggplot(sales_data, aes(x = Employee, y = Sales, fill = Employee)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Top-Selling Products", x = "Employee", y = "Sales (in dollars)")
+
+
+
+
+
+advertising_data <- data.frame(
+  Employee = c("John", "Alice", "Bob", "Sarah"),
+  Advertising_Budget = c(2000, 2500, 1800, 3000)
+)
+
+scatter_data <- merge(sales_data, advertising_data, by = "Employee")
+
+ggplot(scatter_data, aes(x = Advertising_Budget, y = Sales, label = Employee)) +
+  geom_point() +
+  geom_text(vjust = -0.5) +
+  labs(title = "Relationship between Advertising Budget and Monthly Sales", x = "Advertising Budget", y = "Sales (in dollars)")
