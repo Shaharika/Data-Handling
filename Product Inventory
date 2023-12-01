@@ -1,0 +1,38 @@
+product_data <- data.frame(
+  ProductID = c(1, 2, 3, 4, 5),
+  ProductName = c("Product A", "Product B", "Product C", "Product D", "Product E"),
+  QuantityAvailable = c(250, 175, 300, 200, 220)
+)
+library(ggplot2)
+ggplot(product_data, aes(x = ProductName, y = QuantityAvailable, fill = ProductName)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Quantity of Each Product in the Inventory",
+       x = "Product Name",
+       y = "Quantity Available") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+product_data$Category <- c("Category A", "Category B", "Category A", "Category B", "Category C")
+ggplot(product_data, aes(x = Category, y = QuantityAvailable, fill = ProductName)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Quantity of Each Product within Different Categories",
+       x = "Category",
+       y = "Quantity Available") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+product_data$ProductPrice <- c(10, 15, 20, 25, 30)
+ggplot(product_data, aes(x = ProductPrice, y = QuantityAvailable)) +
+  geom_point(color = "orange") +
+  labs(title = "Relationship Between Product Price and Quantity Available",
+       x = "Product Price",
+       y = "Quantity Available")
+
