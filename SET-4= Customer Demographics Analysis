@@ -1,0 +1,40 @@
+#Bar chart
+library(ggplot2)
+data <- data.frame(
+  CustomerID = c(1, 2, 3),
+  Age = c(28, 35, 42),
+  Gender = c("Female", "Male", "Female"),
+  Income = c(50000, 60000, 75000)
+)
+ggplot(data, aes(x = factor(CustomerID), y = Age, fill = factor(CustomerID))) +
+  geom_bar(stat = "identity") +
+  labs(title = "Distribution of Customer Ages",
+       x = "Customer ID",
+       y = "Age")
+
+
+#pie chart
+data <- data.frame(
+  CustomerID = c(1, 2, 3),
+  Age = c(28, 35, 42),
+  Gender = c("Female", "Male", "Female"),
+  Income = c(50000, 60000, 75000)
+)
+ggplot(data, aes(x = "", fill = Gender)) +
+  geom_bar(width = 1, stat = "count") +
+  coord_polar("y") +
+  labs(title = "Distribution of Customers by Gender",
+       fill = "Gender")
+
+
+#Table
+library(kableExtra)
+customer_demographic<- data.frame(
+  CustomerID = c(1, 2, 3),
+  Age = c(28, 35, 42),
+  Gender = c("Female", "Male", "Female"),
+  Income = c(50000, 60000, 75000)
+)
+styled_table<- kable(customer_demographic, format = "html", caption = "demographic information for each customer") %>%
+  kable_styling("striped", full_width = FALSE)
+print(styled_table)
