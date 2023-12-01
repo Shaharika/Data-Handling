@@ -1,0 +1,42 @@
+library(ggplot2)
+library(maps)
+data <- data.frame(
+  lat = c(40.7128, 34.0522, 48.8566), 
+  lon = c(-74.0060, -118.2437, 2.3522), 
+  temp = c(12, 9, 15)
+)
+
+# Plotting the map with temperature data
+world_map <- map_data("world")
+ggplot() +
+  geom_map(data = world_map, map = world_map,
+           aes(x = long, y = lat, map_id = region),
+           fill = "white", color = "black") +
+  geom_point(data = data, aes(x = lon, y = lat, color = temp),
+             size = 4, shape = 21) +
+  scale_color_gradient(low = "blue", high = "red", name = "Temperature (°C)") +
+  labs(title = "Distribution of Temperature on Map", x = "Longitude", y = "Latitude")
+
+
+
+
+
+average_weather <- summarize(weather_data, Avg_Temperature = mean(Temperature), Total_Precipitation = sum(Precipitation))
+
+ggplot(average_weather, aes(x = Avg_Temperature, y = Total_Precipitation)) +
+  geom_point() +
+  labs(title = "Relationship between Average Temperature and Precipitation", x = "Average Temperature (°C)", y = "Total Precipitation (mm)")
+
+
+
+
+
+weather_data <- data.frame(
+  lat = c(40.7128, 34.0522, 48.8566), 
+  lon = c(-74.0060, -118.2437, 2.3522), 
+  temp = c(12, 9, 15)
+)
+library(kableExtra)
+inventory_table <- kable(Weather, format = "html", caption = "weather data for each date") %>%
+  kable_styling("striped", full_width = FALSE)
+inventory_table
