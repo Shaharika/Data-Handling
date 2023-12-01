@@ -1,0 +1,55 @@
+#Bar chart
+library(ggplot2)
+data <- data.frame(
+  ProductID = c(1, 2, 3),
+  ProductName = c("Product A", "Product B", "Product C"),
+  JanuarySales = c(2000, 1500, 1200),
+  FebruarySales = c(2200, 1800, 1400),
+  MarchSales = c(2400, 1600, 1100)
+)
+data_long <- tidyr::gather(data, key = "Month", value = "Sales", -ProductID, -ProductName)
+ggplot(data_long, aes(x = ProductName, y = Sales, fill = Month)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Quarterly Sales by Product",
+       x = "Product",
+       y = "Sales",
+       fill = "Month")
+
+
+
+
+
+#stacked chart
+data <- data.frame(
+  ProductID = c(1, 2, 3),
+  ProductName = c("Product A", "Product B", "Product C"),
+  JanuarySales = c(2000, 1500, 1200),
+  FebruarySales = c(2200, 1800, 1400),
+  MarchSales = c(2400, 1600, 1100)
+)
+data_long <- tidyr::gather(data, key = "Month", value = "Sales", -ProductID, -ProductName)
+ggplot(data_long, aes(x = ProductName, y = Sales, fill = Month)) +
+  geom_area() +
+  labs(title = "Overall Sales Trend",
+       x = "Product",
+       y = "Sales",
+       fill = "Month")
+
+
+
+
+#Table
+library(kableExtra)
+product_data <- data.frame(
+  "Product ID" = c(1, 2, 3),
+  "Product Name" = c("Product A", "Product B", "Product C"),
+  "January Sales" = c(2000, 1500, 1200),
+  "February Sales" = c(2200, 1800, 1400),
+  "March Sales" = c(2400, 1600, 1100)
+)
+styled_table <- kable(product_data, format = "html", caption = "Monthly Sales Data for Each Product") %>%
+  kable_styling("striped", full_width = FALSE)
+print(styled_table)
+
+
+
