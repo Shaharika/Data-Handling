@@ -1,0 +1,43 @@
+library(ggplot2)
+attendance_data <- data.frame(
+  Student = c("Student A", "Student B", "Student C", "Student D"),
+  Class_Date = c("2023-01-01", "2023-01-01", "2023-01-02", "2023-01-02"),
+  Attendance = c("Present", "Absent", "Present", "Present")
+)
+bar_chart_attendance <- ggplot(attendance_data, aes(x = Student, fill = Attendance)) +
+  geom_bar(stat = "count", position = "stack") +
+  labs(title = "Attendance of Each Student",
+       x = "Student",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+print(bar_chart_attendance)
+attendance_data$Class_Date <- as.Date(attendance_data$Class_Date)
+attendance_data <- attendance_data[order(attendance_data$Class_Date, decreasing = TRUE), ]
+
+
+
+
+
+
+
+attendance_data$Class_Date <- as.Date(attendance_data$Class_Date)
+recent_attendance <- aggregate(Class_Date ~ Student, data = attendance_data, FUN = max)
+recent_attendance <- merge(recent_attendance, attendance_data, by = c("Student", "Class_Date"))
+library(ggplot2)
+ggplot(recent_attendance, aes(x = factor(Student), fill = Attendance)) +
+  geom_bar() +
+  labs(title = "Most Recent Attendance Status", x = "Student", y = "Count", fill = "Attendance") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+scatter_plot_attendance <- ggplot(attendance_data, aes(x = Class_Date, y = Student, color = Attendance)) +
+  geom_point(size = 3) +
+  labs(title = "Relationship between Class Date and Attendance",
+       x = "Class Date",
+       y = "Student") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(scatter_plot_attendance)
