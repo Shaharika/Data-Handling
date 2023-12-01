@@ -1,0 +1,40 @@
+library(ggplot2)
+library(dplyr)
+employee_data <- data.frame(
+  Employee = c("John", "Alice", "Bob", "Sarah"),
+  Age = c(32, 28, 35, 29),
+  Gender = c("Male", "Female", "Male", "Female"),
+  Department = c("HR", "Sales", "IT", "Finance"),
+  Salary = c(60000, 70000, 75000, 68000)
+)
+bar_chart_ages <- ggplot(employee_data, aes(x = Employee, y = Age, fill = Employee)) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(title = "Distribution of Employee Ages",
+       x = "Employee",
+       y = "Age") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+print(bar_chart_ages)
+
+
+
+
+
+
+pie_chart_gender <- ggplot(employee_data, aes(x = factor(1), fill = Gender)) +
+  geom_bar(width = 1) +
+  coord_polar("y", start = 0) +
+  labs(title = "Distribution of Employees by Gender") +
+  scale_fill_manual(values = c("blue", "pink"), labels = c("Male", "Female"))
+
+print(pie_chart_gender)
+
+
+
+
+
+library(kableExtra)
+table_data <- employee_data %>%
+  select(Employee, Age, Gender, Department, Salary)
+inventory_table <- kable(table_data, format = "html", caption = "Inventory Data for Each Product") %>%
+  kable_styling("striped", full_width = FALSE)
+inventory_table
