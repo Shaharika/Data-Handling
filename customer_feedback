@@ -1,0 +1,37 @@
+library(ggplot2)
+customer_data <- data.frame(
+  Customer = c("Customer 1", "Customer 2", "Customer 3", "Customer 4"),
+  Rating = c(4, 3, 5, 2),
+  Feedback = c("Great service!", "Decent but could improve.", "Excellent experience!", "Not satisfied at all.")
+)
+histogram <- ggplot(customer_data, aes(x = Rating)) +
+  geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Customer Ratings",
+       x = "Ratings",
+       y = "Frequency")
+print(histogram)
+
+
+
+
+
+
+rating_counts <- table(customer_data$Rating)
+library(plotrix)
+pie3D(rating_counts, labels = paste(names(rating_counts), ": ", rating_counts), 
+      main = "Overall Distribution of Customer Ratings", col = rainbow(length(rating_counts)))
+
+
+
+
+
+stacked_bar <- ggplot(customer_data, aes(x = factor(Rating), fill = Feedback)) +
+  geom_bar(position = "stack") +
+  labs(title = "Distribution of Feedback by Customer Rating",
+       x = "Rating",
+       y = "Count") +
+  scale_fill_discrete(name = "Feedback")
+
+print(stacked_bar)
+
+
