@@ -1,0 +1,43 @@
+#Histogram
+library(ggplot2)
+employee_data <- data.frame(
+  EmployeeID = c(1, 2, 3, 4, 5),
+  Name = c("John Smith", "Jane Doe", "Robert Brown", "Sarah White", "Michael Lee"),
+  Department = c("Sales", "HR", "Marketing", "Sales", "HR"),
+  YearsOfService = c(5, 3, 7, 4, 2),
+  PerformanceScore = c(85, 92, 78, 90, 76)
+)
+ggplot(employee_data, aes(x = YearsOfService)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Years of Service",
+       x = "Years of Service",
+       y = "Count")
+
+
+
+#Pie chart
+ggplot(employee_data, aes(x = "", y = PerformanceScore, fill = factor(EmployeeID))) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y") +
+  labs(title = "Distribution of Performance Scores",
+       fill = "Employee ID")
+
+
+
+
+
+#Stacked bar
+feedback <- c("Great service!", "Needs improvement.", "Satisfied with the product.", "Poor experience")
+library(tidytext)
+library(dplyr)
+library(wordcloud)
+feedback_df <- data.frame(feedback)
+tidy_feedback <- feedback_df %>%
+  unnest_tokens(word, feedback)
+sentiments <- tidy_feedback %>%
+  inner_join(get_sentiments("bing"))
+wordcloud(words = sentiments$word, freq = rep(1, nrow(sentiments)),
+          max.words = 50, min.freq = 1, random.order = FALSE,
+          colors = brewer.pal(8, "Dark2"),
+          title = "Sentiment Analysis Word Cloud")
+
