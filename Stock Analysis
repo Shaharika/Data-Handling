@@ -1,0 +1,42 @@
+library(ggplot2)
+stock_data <- data.frame(
+  Date = as.Date(c("2023-01-01", "2023-01-02", "2023-01-03")),
+  StockA = c(100, 105, 110),
+  StockB = c(150, 152, 148),
+  StockC = c(120, 118, 122)
+)
+ggplot(stock_data, aes(x = Date)) +
+  geom_line(aes(y = StockA, color = "Stock A"), size = 1.5) +
+  geom_line(aes(y = StockB, color = "Stock B"), size = 1.5) +
+  geom_line(aes(y = StockC, color = "Stock C"), size = 1.5) +
+  labs(title = "Stock Prices Over Time",
+       x = "Date",
+       y = "Stock Price",
+       color = "Stock") 
+
+
+
+
+
+
+stock_data$StockA_Daily_Percentage_Change <- c(0, diff(stock_data$StockA) / stock_data$StockA[-nrow(stock_data)] * 100)
+ggplot(stock_data, aes(x = Date, y = StockA_Daily_Percentage_Change)) +
+  geom_bar(stat = "identity", fill = "blue", alpha = 0.7) +
+  labs(title = "Daily Percentage Change in Stock A",
+       x = "Date",
+       y = "Percentage Change (%)") +
+  theme_minimal()
+
+
+
+
+library(kableExtra)
+stock_data <- data.frame(
+  Date = as.Date(c("2023-01-01", "2023-01-02", "2023-01-03")),
+  StockA = c(100, 105, 110),
+  StockB = c(150, 152, 148),
+  StockC = c(120, 118, 122)
+)
+survey_table <- kable(stock_data, format = "html", caption = "sales data for each product category") %>%
+  kable_styling("striped", full_width = FALSE)
+survey_table 
