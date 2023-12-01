@@ -1,0 +1,32 @@
+# Assuming 'sales_data' is your data frame
+sales_data <- data.frame(
+  Region = c("North", "North", "South", "South"),
+  Month = c("Jan", "Feb", "Jan", "Feb"),
+  Sales = c(5000, 6200, 4800, 5600)
+)
+
+# Grouped bar chart for sales of each region in the first quarter
+library(ggplot2)
+
+ggplot(sales_data, aes(x = Region, y = Sales, fill = Month)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Sales of Each Region for First Quarter", x = "Region", y = "Sales (USD)", fill = "Month")
+
+
+
+
+
+# Stacked area chart for overall sales trend
+ggplot(sales_data, aes(x = Month, y = Sales, fill = Region)) +
+  geom_area(position = "stack") +
+  labs(title = "Overall Sales Trend for All Regions", x = "Month", y = "Sales (USD)", fill = "Region")
+
+
+
+
+sales_table <- reshape(sales_data, idvar = "Month", timevar = "Region", direction = "wide")
+library(kableExtra)
+inventory_table <- kable(sales_data, format = "html", caption = "Inventory Data for Each Product") %>%
+  kable_styling("striped", full_width = FALSE)
+inventory_table
+
