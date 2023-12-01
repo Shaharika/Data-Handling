@@ -1,0 +1,39 @@
+#Histogram
+library(ggplot2)
+data <- data.frame(
+  Customer_ID = 1:5,
+  Age = c(28, 35, 42, 30, 45)
+)
+ggplot(data, aes(x = Age)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  labs(x = "Age", y = "Frequency", title = "Distribution of Customer Ages")
+
+
+
+
+
+#Pie chart
+satisfaction_data <- data.frame(
+  Satisfaction_Score = c(4, 5, 3, 4, 5)
+)
+satisfaction_counts <- table(satisfaction_data$Satisfaction_Score)
+pie(satisfaction_counts, labels = paste("Score", names(satisfaction_counts)), main = "Customer Satisfaction Distribution")
+
+
+
+
+
+#world Cloud
+library(tidytext)
+library(wordcloud)
+feedback <- data.frame(
+  Customer_ID = 1:5,
+  Feedback = c("Great service!", "Could be better", "Not satisfied", "Excellent experience", "Needs improvement")
+)
+sentiment <- get_sentiments("bing")
+feedback_sentiment <- feedback %>%
+  unnest_tokens(word, Feedback) %>%
+  inner_join(sentiment)
+wordcloud(words = feedback_sentiment$word, freq = rep(1, nrow(feedback_sentiment)),
+          scale=c(5, 0.5), min.freq = 1, max.words = 100, random.order=FALSE,
+          colors=brewer.pal(8, "Dark2"), title = "Customer Feedback Word Cloud")
