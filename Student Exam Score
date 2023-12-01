@@ -1,0 +1,39 @@
+student_data <- data.frame(
+  Student = c("Student A", "Student B", "Student C", "Student D"),
+  Math = c(85, 76, 92, 88),
+  Science = c(92, 88, 79, 95),
+  History = c(78, 89, 87, 82)
+)
+library(ggplot2)
+ggplot(student_data, aes(x = Student)) +
+  geom_bar(aes(y = Math), stat = "identity", fill = "skyblue", position = "dodge") +
+  geom_bar(aes(y = Science), stat = "identity", fill = "lightgreen", position = "dodge") +
+  geom_bar(aes(y = History), stat = "identity", fill = "salmon", position = "dodge") +
+  labs(title = "Marks of Each Student", x = "Student", y = "Marks") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+
+
+library(tidyr)
+
+student_data_long <- gather(student_data, Subject, Marks, -Student)
+
+ggplot(student_data_long, aes(x = Student, y = Marks, fill = Subject)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Subject-wise Marks of Students", x = "Student", y = "Marks") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+
+ggplot(student_data, aes(x = Math, y = History)) +
+  geom_point() +
+  labs(title = "Relationship between Math and History Marks",
+       x = "Math Marks", y = "History Marks")
+
