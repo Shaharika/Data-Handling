@@ -1,0 +1,42 @@
+# Assuming you have the data in a dataframe named 'sales_data'
+sales_data <- data.frame(
+  Month = c("January", "February", "March", "April", "May"),
+  Sales = c(15000, 18000, 22000, 20000, 23000)
+)
+
+# Convert 'Month' column to a factor with ordered levels
+sales_data$Month <- factor(sales_data$Month, levels = c("January", "February", "March", "April", "May"))
+
+# Create a time series line chart
+library(ggplot2)
+
+ggplot(sales_data, aes(x = Month, y = Sales, group = 1)) +
+  geom_line(color = "blue") +
+  labs(title = "Monthly Sales Trend", x = "Month", y = "Sales ($)")
+
+
+
+
+
+
+
+
+sales_data <- data.frame(
+  Advertising_Budget = c(500, 600, 700, 550, 800),  
+  Sales = c(15000, 18000, 22000, 20000, 23000)
+)
+ggplot(sales_data, aes(x = Advertising_Budget, y = Sales)) +
+  geom_point(color = "green", size = 3) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(title = "Relationship between Advertising Budget and Monthly Sales",
+       x = "Advertising Budget",
+       y = "Sales (in $)")
+
+
+
+
+
+library(forecast)
+sales_ts <- ts(sales_data$Sales, frequency = 12)  
+acf(sales_ts, lag.max = 12, main = "Autocorrelation Plot for Monthly Sales")
+
