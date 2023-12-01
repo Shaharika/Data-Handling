@@ -1,0 +1,37 @@
+inventory_data <- data.frame(
+  ProductID = c(1, 2, 3),
+  ProductName = c("Product A", "Product B", "Product C"),
+  QuantityAvailable = c(250, 175, 300),
+  Price = c(20, 15, 18)
+)
+library(ggplot2)
+ggplot(inventory_data, aes(x = ProductName, y = QuantityAvailable, fill = ProductName)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Quantity of Each Product in the Inventory",
+       x = "Product Name",
+       y = "Quantity Available") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+inventory_data$Category <- c("Category A", "Category B", "Category A")
+ggplot(inventory_data, aes(x = Category, y = QuantityAvailable, fill = ProductName)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Quantity of Each Product within Different Categories",
+       x = "Category",
+       y = "Quantity Available") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+
+library(kableExtra)
+inventory_table <- kable(inventory_data, format = "html", caption = "Inventory Data for Each Product") %>%
+  kable_styling("striped", full_width = FALSE)
+inventory_table
+
