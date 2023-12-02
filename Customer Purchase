@@ -1,0 +1,58 @@
+library(ggplot2)
+library(tm)
+library(wordcloud)
+customer_data <- data.frame(
+  Customer = c("Customer A", "Customer B", "Customer A", "Customer C"),
+  Product = c("Widget X", "Widget Y", "Widget Z", "Widget X"),
+  Quantity = c(5, 3, 2, 4),
+  Price = c(10.00, 15.00, 8.50, 9.00)
+)
+histogram_quantity <- ggplot(customer_data, aes(x = Quantity)) +
+  geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Quantity",
+       x = "Quantity",
+       y = "Frequency")
+
+print(histogram_quantity)
+
+
+
+
+
+total_quantity <- sum(customer_data$Quantity)
+total_price <- sum(customer_data$Quantity * customer_data$Price)
+
+pie_chart <- ggplot(data.frame(Values = c(total_quantity, total_price)),
+                    aes(x = factor(1), y = Values, fill = factor(Values))) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  labs(title = "Distribution of Overall Quantity and Price",
+       fill = "Values",
+       x = "",
+       y = "") +
+  scale_fill_manual(values = c("skyblue", "salmon"), labels = c("Total Quantity", "Total Price")) +
+  annotate("text", x = 0, y = 0, label = paste("Total Quantity:", total_quantity), size = 3, vjust = -0.5) +
+  annotate("text", x = 0, y = 0, label = paste("Total Price:", "$", total_price), size = 3, vjust = 0.5)
+
+print(pie_chart)
+
+
+
+
+customer_feedback <- c(
+  "Great product and excellent service!",
+  "Not satisfied with the product quality.",
+  "Really happy with my purchase.",
+  "Customer service needs improvement."
+)
+corpus <- Corpus(VectorSource(customer_feedback))
+corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeNumbers)
+corpus <- tm_map(corpus, removeWords, stopwords("english"))
+dtm <- DocumentTermMatrix(corpus)
+m <- as.matrix(dtm)
+word_freq <- sort(rowSums(m), decreasing = TRUE)
+wordcloud(words = names(word_freq), freq = word_freq, min.freq = 1,
+          max.words = 50, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
+
