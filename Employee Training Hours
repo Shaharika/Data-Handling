@@ -1,0 +1,30 @@
+employee_data <- data.frame(
+  Employee = c("John", "Alice", "Bob", "Sarah"),
+  Department = c("HR", "Sales", "IT", "Finance"),
+  Training_Hours = c(10, 8, 12, 6)
+)
+hist(employee_data$Training_Hours, main = "Distribution of Training Hours", xlab = "Training Hours", ylab = "Frequency")
+
+
+
+
+
+
+library(ggplot2)
+
+# Calculating total training hours per department
+total_hours <- aggregate(Training_Hours ~ Department, data = employee_data, sum)
+
+# Creating pie chart
+pie(total_hours$Training_Hours, labels = total_hours$Department, main = "Overall Employee Training Hours")
+
+
+
+
+
+
+ggplot(employee_data, aes(x = Employee, y = Training_Hours, fill = Department)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Distribution of Training Hours by Employee", x = "Employee", y = "Training Hours") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
