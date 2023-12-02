@@ -1,0 +1,58 @@
+library(ggplot2)
+library(dplyr)
+
+# Sample data
+student_data <- data.frame(
+  Student = c("Student A", "Student B", "Student C", "Student D"),
+  Grade_Level = c("9th", "10th", "11th", "9th"),
+  Enrollment_Date = as.Date(c("2023-08-15", "2023-09-02", "2023-07-20", "2023-08-30"))
+)
+
+# Calculate average grade level
+avg_grade <- student_data %>%
+  mutate(Grade_Level = factor(Grade_Level, levels = c("9th", "10th", "11th"))) %>%
+  group_by(Grade_Level) %>%
+  summarise(Avg_Enrollment = mean(as.numeric(Grade_Level)))
+
+# Bar chart for average grade level of students
+bar_chart_grade <- ggplot(avg_grade, aes(x = Grade_Level, y = Avg_Enrollment, fill = Grade_Level)) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(title = "Average Grade Level of Students",
+       x = "Grade Level",
+       y = "Average Grade Level") +
+  theme_minimal()
+
+print(bar_chart_grade)
+
+
+
+
+
+
+
+student_data <- student_data[order(student_data$Enrollment_Date, decreasing = TRUE), ]
+
+# Stacked bar chart for most recent enrollment date
+stacked_bar_recent_enrollment <- ggplot(student_data[1, ], aes(x = factor(1), fill = Grade_Level)) +
+  geom_bar(width = 1) +
+  coord_polar("y", start = 0) +
+  labs(title = "Most Recent Enrollment Date",
+       x = "",
+       y = "") +
+  theme_void()
+
+print(stacked_bar_recent_enrollment)
+
+
+
+
+scatter_plot <- ggplot(student_data, aes(x = Enrollment_Date, y = as.numeric(Grade_Level), color = Grade_Level)) +
+  geom_point(size = 3) +
+  labs(title = "Relationship between Grade Level and Enrollment Date",
+       x = "Enrollment Date",
+       y = "Grade Level") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(scatter_plot)
+
+
